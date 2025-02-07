@@ -1,8 +1,36 @@
-# ComfyUI-Docker-Lab
-Personal ComfyUI Docker lab - tested w/ Nvidia 2070 SUPER
+# ComfyUI-Docker-Lab w/ Manager
 
+
+### TL;DR
+
+```bash
+git clone https://github.com/ivym1ke/ComfyUI-Docker-Lab.git && cd ComfyUI-Docker-Lab
+powershell -ExecutionPolicy Bypass -File run_once.ps1
+docker-compose up -d
+```
+
+*Runs setup and starts the container. If it burns, not my fault.*
 ## Overview
-This project sets up a **ComfyUI AI Lab** in a Docker container with persistent storage for models, input/output files, and configurations.
+This project sets up a **ComfyUI Lab** in a Docker container with persistent storage for models, input/output files, and configurations.
+
+
+I ran into a lot of issues with other quick-start guides and Dockerized versions of ComfyUI, so I built my own. It is a major work in progress as I figure this stuff out.
+
+
+I have no idea what I'm doing when it comes to AI/ML, so if you use this, **it's entirely at your own risk.**
+
+
+
+### Tested on hardware:
+
+```
+OS: Microsoft Windows 10 Pro
+CPU: AMD Ryzen 9 3900X 12-Core Processor
+RAM: 128 GB
+GPU: NVIDIA GeForce RTX 2070 SUPER
+```
+Newer GPUS may need newer CUDA libs. 
+
 
 ## Setup Instructions
 
