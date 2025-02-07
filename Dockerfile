@@ -43,8 +43,16 @@ RUN python3 -m venv /comfy_env && \
     pip install GitPython PyGithub matrix-client==0.4.0 transformers "huggingface-hub>0.20" typer rich typing-extensions toml uv && \
     pip install -r requirements.txt
 
-# Ensure the virtual environment is activated on startup
-ENV PATH="/comfy_env/bin:$PATH"
 
-# Default command
+
+
+# Copy the default models directory to a backup location
+# This is hack to deal with first run
+RUN cp -r /ComfyUI/models /default_models_backup
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+ENV PATH="/comfy_env/bin:$PATH"
 CMD ["/comfy_env/bin/python", "main.py", "--listen", "0.0.0.0", "--port", "8188"]
