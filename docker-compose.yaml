@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  ailob:
+    image: ailob
+    container_name: ailob
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8188:8188"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    volumes:
+      - "./models:/ComfyUI/models"
+      - "./custom_nodes:/ComfyUI/custom_nodes"
+      - "./input:/ComfyUI/input"
+      - "./output:/ComfyUI/output"
+      - "./user:/ComfyUI/user"
+      - "./data:/data"
+      - "comfy_venv:/comfy_env"
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    command: ["/comfy_env/bin/python", "main.py", "--listen", "0.0.0.0", "--port", "8188"]
+
+volumes:
+  comfy_venv:
+    driver: local
