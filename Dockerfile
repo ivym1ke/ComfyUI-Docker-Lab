@@ -31,11 +31,15 @@ RUN curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | gpg --dearm
     apt-get install -y nvidia-container-toolkit && \
     rm -rf /var/lib/apt/lists/*
 
-# Set the working directory
+
+# Create and activate a Python virtual environment
+RUN python3 -m venv /comfy_env
+
+# Set the working directory for all following commands
 WORKDIR /ComfyUI
 
-# Create and activate a Python virtual environment (Persistent via Docker volume)
-RUN python3 -m venv /comfy_env && \
+# Clone ComfyUI and install dependencies
+RUN git clone https://github.com/comfyanonymous/ComfyUI.git /ComfyUI && \
     . /comfy_env/bin/activate && \
     pip install --upgrade pip && \
     pip install --no-cache-dir xformers --index-url https://download.pytorch.org/whl/cu118 && \
@@ -43,11 +47,6 @@ RUN python3 -m venv /comfy_env && \
     pip install GitPython PyGithub matrix-client==0.4.0 transformers "huggingface-hub>0.20" typer rich typing-extensions toml uv && \
     pip install -r requirements.txt
 
-
-
-
-# Copy the default models directory to a backup location
-# This is hack to deal with first run
 RUN cp -r /ComfyUI/models /default_models_backup
 
 COPY entrypoint.sh /entrypoint.sh
