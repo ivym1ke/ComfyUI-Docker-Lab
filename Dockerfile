@@ -42,10 +42,11 @@ WORKDIR /ComfyUI
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git /ComfyUI && \
     . /comfy_env/bin/activate && \
     pip install --upgrade pip && \
-    pip install --no-cache-dir xformers --index-url https://download.pytorch.org/whl/cu118 && \
-    pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118 && \
+    pip install torch==2.5.1+cu121 torchvision==0.16.1+cu121 torchaudio==2.1.1+cu121 --index-url https://download.pytorch.org/whl/cu121 && \
+    pip install --no-cache-dir xformers --index-url https://download.pytorch.org/whl/cu121 && \
     pip install GitPython PyGithub matrix-client==0.4.0 transformers "huggingface-hub>0.20" typer rich typing-extensions toml uv && \
-    pip install -r requirements.txt
+    pip install -r /ComfyUI/requirements.txt
+
 
 RUN cp -r /ComfyUI/models /default_models_backup
 
