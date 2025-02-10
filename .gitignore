@@ -4,3 +4,5 @@ output
 data
 user
 custom_nodes
+input
+nuke.bat

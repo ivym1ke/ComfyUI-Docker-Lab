@@ -38,14 +38,15 @@ RUN python3 -m venv /comfy_env
 # Set the working directory for all following commands
 WORKDIR /ComfyUI
 
-# Clone ComfyUI and install dependencies
+COPY requirements.txt /requirements.txt
+RUN . /comfy_env/bin/activate && pip install --no-cache-dir -r /requirements.txt
+RUN . /comfy_env/bin/activate && pip freeze | grep -E "nvidia|torch" > /constraints.txt
+
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git /ComfyUI && \
     . /comfy_env/bin/activate && \
-    pip install --upgrade pip && \
-    pip install torch==2.5.1+cu121 torchvision==0.16.1+cu121 torchaudio==2.1.1+cu121 --index-url https://download.pytorch.org/whl/cu121 && \
-    pip install --no-cache-dir xformers --index-url https://download.pytorch.org/whl/cu121 && \
-    pip install GitPython PyGithub matrix-client==0.4.0 transformers "huggingface-hub>0.20" typer rich typing-extensions toml uv && \
-    pip install -r /ComfyUI/requirements.txt
+    pip install --constraint /constraints.txt --upgrade pip && \
+    pip install --constraint /constraints.txt GitPython PyGithub matrix-client==0.4.0 transformers "huggingface-hub>0.20" typer rich typing-extensions toml uv && \
+    pip install --constraint /constraints.txt -r /ComfyUI/requirements.txt
 
 
 RUN cp -r /ComfyUI/models /default_models_backup

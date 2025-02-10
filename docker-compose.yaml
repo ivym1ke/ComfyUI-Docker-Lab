@@ -17,12 +17,11 @@ services:
               count: all
               capabilities: [gpu]
     volumes:
-      - "./models:/ComfyUI/models"
-      - "./custom_nodes:/ComfyUI/custom_nodes"
-      - "./input:/ComfyUI/input"
-      - "./output:/ComfyUI/output"
-      - "./user:/ComfyUI/user"
-      - "./data:/data"
+      - "./models:/models"
+      - "./custom_nodes:/custom_nodes"
+      - "./input:/input"
+      - "./output:/output"
+      - "./user:/user"
       - "comfy_venvcu121:/comfy_env"
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
